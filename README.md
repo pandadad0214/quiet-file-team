@@ -11,7 +11,14 @@ export TEAM_DIR="$PWD/team"
 bash "$TEAM_DIR/has-work.sh" helper
 ```
 
-Alternatively, once the repository is published, clone it and set `TEAM_DIR` to the checkout directory. No package registry, hosted endpoint or Release download is required.
+Alternatively, clone this repository and set `TEAM_DIR` to the checkout directory:
+
+```bash
+git clone https://github.com/pandadad0214/quiet-file-team.git
+export TEAM_DIR="$PWD/quiet-file-team"
+```
+
+No package registry, hosted endpoint or Release download is required.
 
 Requirements: Linux, Bash 4 or newer, GNU core utilities, awk, sed, tar and util-linux `flock`. The test suite additionally uses ripgrep (`rg`). Scripts use local files on one shared computer. Network filesystems with unreliable locks are not supported. The kit does not install or schedule routines for you.
 
