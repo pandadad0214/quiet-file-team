@@ -68,11 +68,30 @@ The scripts serialize mutations using `flock`. Board notes, task titles and task
 
 These are operating practices, not measured savings or a promise of a particular reduction.
 
-## Free vs planned paid
+## Free vs paid editions
 
-This public repository is the free core. The free way is to clone or copy this repo and follow the setup guide; no purchase is needed.
+This public repository is the free core. Clone or copy it and follow the setup guide above; no purchase is needed.
 
-A paid setup kit with ready rules, guided installation and examples is planned and **not for sale yet**. There is no live paid product or checkout link. When it exists, it will be linked here and will point back to this free repository. Until then, use the free instructions above. The future kit will document how to add its setup materials and how to return to this free tree while keeping local data.
+### Free MCP companion
+
+Six offline guidance tools for the same method (explain the method, draft safe team configuration and early-exit text, validate a supplied layout, draft a fictional workflow, batch explicit owner questions):
+
+- Repository: https://github.com/pandadad0214/quiet-file-team-mcp
+- Install: `uvx --from git+https://github.com/pandadad0214/quiet-file-team-mcp.git@v0.1.0 quiet-file-team-mcp`
+
+The MCP tools are free offline guidance. They do not read arbitrary files, call the network, charge for runs or schedule routines.
+
+### Paid setup kit (live on Agensi)
+
+Ready rules, guided installation, acceptance checks and fictional practice are available as a one-time Agensi skill:
+
+- Listing: https://agensi.io/skills/quiet-file-team-setup-kit ($29 one-time)
+
+**Free → paid skill:** keep this free core, load the Agensi skill guidance in your agent, apply selected rule packs, practice in a new folder and complete the acceptance checklist. Do not replace operational logs with examples.
+
+**Paid → free:** retain your scripts, remove optional kit rules and continue with this README. For a clean copy, clone this repository separately, back up current data and deliberately review or re-enter active tasks; never merge cursors blindly.
+
+An Apify Actor that generates a configured core-plus-guidance ZIP is built and queued for Store publication; it is **not purchasable on Apify yet**. When the Store listing goes public it will be linked here with the same switch steps. No other purchasable edition is claimed.
 
 ## What this is not
 
@@ -80,7 +99,7 @@ A paid setup kit with ready rules, guided installation and examples is planned a
 - Not a replacement for the owner's chat.
 - Not a way for bots to talk behind the owner's back.
 - Not authentication, access control or encrypted storage. Ids label records; they do not prove identity. All local users who can access these files may read or alter them. Use an appropriately restricted local directory.
-- Not an MCP server or an Apify actor. Directory listings and any service integration are future work, not shipped features.
+- Not itself an MCP server or an Apify Actor. A free companion MCP lives at https://github.com/pandadad0214/quiet-file-team-mcp; a paid Agensi setup skill is linked above. An Apify Store generator is queued and not purchasable yet.
 
 ## For developers
 
