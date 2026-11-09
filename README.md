@@ -1,26 +1,52 @@
 # Quiet File Team
 
-A file-first quiet bus for multi-bot teams: pair files, a task queue and early-exit checks so idle routines stop.
+Quiet File Team lets several AI bots share one computer through plain files, so idle routines stop on `NO WORK` instead of spending tokens. It is a free, MIT-licensed Bash kit (pair notes, an append-only task queue, a board and an early-exit check) with no server, chat bus or LLM inside.
 
-## Install / Use
+[![Latest Release](https://img.shields.io/github/v/release/pandadad0214/quiet-file-team?label=latest%20release)](https://github.com/pandadad0214/quiet-file-team/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-This is a copy-the-folder kit of scripts, not a service. Copy this entire folder to a shared local directory such as `./team`, then run:
+## How to use this
 
 ```bash
+curl -fsSL https://github.com/pandadad0214/quiet-file-team/archive/refs/tags/v0.1.0.tar.gz | tar xz && mv quiet-file-team-0.1.0 team
 export TEAM_DIR="$PWD/team"
-bash "$TEAM_DIR/has-work.sh" helper
+bash "$TEAM_DIR/has-work.sh" helper   # a fresh kit prints: NO WORK
 ```
 
-Alternatively, clone this repository and set `TEAM_DIR` to the checkout directory:
+1. **Copy the kit** into a shared local folder with the command above (or `git clone https://github.com/pandadad0214/quiet-file-team.git team`).
+2. **Name your bots** in `team/team.conf` (`TEAM_IDS="lead builder helper"`) and set `TEAM_TZ` (default `UTC`).
+3. **Start every routine** with `bash "$TEAM_DIR/has-work.sh" <id>` and stop the routine when it prints exactly `NO WORK`.
 
-```bash
-git clone https://github.com/pandadad0214/quiet-file-team.git
-export TEAM_DIR="$PWD/quiet-file-team"
+Then run the practice exercise in the [setup guide](#setup-guide), give each bot the [core rules](notes/core-rules.md) and paste the [early-exit block](notes/early-exit.md) into each routine. Want it configured for you? See [Editions and how to switch](#editions-and-how-to-switch).
+
+### What a run looks like
+
+```text
+$ bash task.sh new lead helper "Sort a sample inbox"
+task: T0001 open (helper)
+$ bash pair.sh lead helper "Sample inbox is in notes/"
+pair: ok (helper-lead)
+$ bash has-work.sh helper
+TASKS:
+2026-11-09 16:53 UTC | T0001 | helper | open | lead | Sort a sample inbox
+HANDOFFS:
+pairs/helper-lead.md: 2026-11-09 16:53 UTC | lead -> helper | Sample inbox is in notes/
 ```
 
-No package registry, hosted endpoint or Release download is required.
+## For AI agents
 
-Requirements: Linux, Bash 4 or newer, GNU core utilities, awk, sed, tar and util-linux `flock`. The test suite additionally uses ripgrep (`rg`). Scripts use local files on one shared computer. Network filesystems with unreliable locks are not supported. The kit does not install or schedule routines for you.
+| Field | Value |
+| --- | --- |
+| Purpose | File-first coordination for several bots on one computer: pair notes, task queue, board and an early-exit check. |
+| Use when | Two or more bots or scheduled routines share one machine and you want idle runs to exit early and handoffs to live in files. |
+| Do not use when | Bots run on different machines without a shared local disk, you need authentication or encryption, or you need real-time chat. |
+| Install | `curl -fsSL https://github.com/pandadad0214/quiet-file-team/archive/refs/tags/v0.1.0.tar.gz \| tar xz` or `git clone`; no package registry. |
+| Entry point | `has-work.sh <id>`: prints pending `TASKS:` / `HANDOFFS:` or exactly `NO WORK`; always exits 0, so check the output. |
+| Write commands | `task.sh new\|claim\|set\|list\|owner\|stale\|show`, `pair.sh <from> <to> <note>`, `post.sh <id> <tag> <note>` |
+| State files | `tasks.log` (append-only), `board.md`, `pairs/*.md`, `.seen/<id>`, `notes/<id>-context.md` |
+| Side effects | Local file writes only. No network, no scheduler, no model calls. |
+| Requirements | Linux, Bash 4+, GNU coreutils, awk, sed, tar, util-linux `flock` |
+| Related | Free MCP companion `quiet-file-team-mcp`; paid setup kit on Agensi and Apify (see editions below). |
 
 ## Setup guide
 
@@ -68,30 +94,20 @@ The scripts serialize mutations using `flock`. Board notes, task titles and task
 
 These are operating practices, not measured savings or a promise of a particular reduction.
 
-## Free vs paid editions
+## Editions and how to switch
 
-This public repository is the free core. Clone or copy it and follow the setup guide above; no purchase is needed.
+| Edition | What you get | Price | Start here |
+| --- | --- | --- | --- |
+| Free core (this repo) | The Bash scripts, demo roster, rules and early-exit text | Free | [How to use this](#how-to-use-this) |
+| Free MCP companion | Six offline guidance tools: explain the method, draft team config and early-exit text, validate a layout, draft a fictional workflow, batch owner questions | Free | [quiet-file-team-mcp](https://github.com/pandadad0214/quiet-file-team-mcp) |
+| Agensi setup kit skill | Ready rules, guided installation, acceptance checks and fictional practice, loaded into your agent | $29 one-time | [agensi.io/skills/quiet-file-team-setup-kit](https://agensi.io/skills/quiet-file-team-setup-kit) |
+| Apify setup kit generator | A configured core-plus-guidance ZIP built from your roster, time zone and coordinator id | $29 per generated kit | [apify.com/pandadad0214/quiet-file-team-setup](https://apify.com/pandadad0214/quiet-file-team-setup) |
 
-### Free MCP companion
-
-Six offline guidance tools for the same method (explain the method, draft safe team configuration and early-exit text, validate a supplied layout, draft a fictional workflow, batch explicit owner questions):
-
-- Repository: https://github.com/pandadad0214/quiet-file-team-mcp
-- Install: `uvx --from git+https://github.com/pandadad0214/quiet-file-team-mcp.git@v0.1.0 quiet-file-team-mcp`
-
-The MCP tools are free offline guidance. They do not read arbitrary files, call the network, charge for runs or schedule routines.
-
-### Paid setup kit (live on Agensi)
-
-Ready rules, guided installation, acceptance checks and fictional practice are available as a one-time Agensi skill:
-
-- Listing: https://agensi.io/skills/quiet-file-team-setup-kit ($29 one-time)
-
-**Free → paid skill:** keep this free core, load the Agensi skill guidance in your agent, apply selected rule packs, practice in a new folder and complete the acceptance checklist. Do not replace operational logs with examples.
-
-**Paid → free:** retain your scripts, remove optional kit rules and continue with this README. For a clean copy, clone this repository separately, back up current data and deliberately review or re-enter active tasks; never merge cursors blindly.
-
-An Apify Actor that generates a configured core-plus-guidance ZIP is built and queued for Store publication; it is **not purchasable on Apify yet**. When the Store listing goes public it will be linked here with the same switch steps. No other purchasable edition is claimed.
+- **Free core → free MCP:** keep this folder, then add the companion to your MCP client with `uvx --from git+https://github.com/pandadad0214/quiet-file-team-mcp.git@v0.1.0 quiet-file-team-mcp`. It never reads your files or calls the network.
+- **Free core → Agensi skill:** keep this folder, load the Agensi skill in your agent, apply the rule packs you want, practice in a new folder and finish the acceptance checklist. Do not replace operational logs with examples.
+- **Free core → Apify generator:** on the Actor page fill **Roster** (`TEAM_IDS`, e.g. `lead builder helper`), **IANA time zone** (`TEAM_TZ`) and **Coordinator** (`lead`), allow a maximum run charge of at least $29, then Start. Download **OUTPUT.zip** from the run's key-value store and unpack it into a new folder; move live tasks over by hand.
+- **Agensi ↔ Apify:** the skill guides an agent through setup in your own folder; the Actor hands you a ready ZIP. Use the skill if your agent will do the install, the Actor if you want files only.
+- **Paid → free:** keep your scripts, drop the optional kit rules and continue with this README. For a clean copy, clone this repository separately, back up current data and re-enter active tasks deliberately; never merge `.seen` cursors blindly.
 
 ## What this is not
 
@@ -99,7 +115,7 @@ An Apify Actor that generates a configured core-plus-guidance ZIP is built and q
 - Not a replacement for the owner's chat.
 - Not a way for bots to talk behind the owner's back.
 - Not authentication, access control or encrypted storage. Ids label records; they do not prove identity. All local users who can access these files may read or alter them. Use an appropriately restricted local directory.
-- Not itself an MCP server or an Apify Actor. A free companion MCP lives at https://github.com/pandadad0214/quiet-file-team-mcp; a paid Agensi setup skill is linked above. An Apify Store generator is queued and not purchasable yet.
+- Not itself an MCP server or an Apify Actor. The free MCP companion and the paid Agensi and Apify setup kits are linked in [Editions and how to switch](#editions-and-how-to-switch).
 
 ## For developers
 
