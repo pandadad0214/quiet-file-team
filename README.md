@@ -5,6 +5,7 @@ Quiet File Team lets several AI bots share one computer through plain files, so 
 [![Latest Release](https://img.shields.io/github/v/release/pandadad0214/quiet-file-team?label=latest%20release)](https://github.com/pandadad0214/quiet-file-team/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Approved on SaaSHub](https://cdn-b.saashub.com/img/badges/approved-color.png?v=1)](https://www.saashub.com/panda-federation-tools?utm_source=badge&utm_campaign=badge&utm_content=panda-federation-tools&badge_variant=color&badge_kind=approved)
+[![Listed on Submit AI Tools](https://submitaitools.org/static_submitaitools/images/submitaitools.png)](https://submitaitools.org/pandadad0214-github-io-panda-federation-tools/)
 
 ## Part of [Panda Federation](https://pandafederation.com/)
 
